@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "787224043784",
+    "project_id": "convocult-a8e69",
+    "storage_bucket": "convocult-a8e69.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:787224043784:android:6860f5b47fc0e4da378cbd",
+        "android_client_info": {
+          "package_name": "com.example.convocult"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtjROMobLPArb7quckljufSzjh0J3Q330"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

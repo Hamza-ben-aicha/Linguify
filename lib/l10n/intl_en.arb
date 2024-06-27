@@ -1,0 +1,21 @@
+{
+  "title": "Linguify",
+  "app_short_description": "",
+  "_General": "*** General worlds ***",
+  "email": "Email",
+  "password": "Password",
+  "fullname": "Full Name",
+  "select_country": "Select Country",
+  "confrim_password": "Confirm Password",
+  "forget_password": "Forgot Password? ",
+  "_SplashScreen": "*** Splash screen ***",
+  "next": "Next",
+  "_SignInScreen": "*** Sign In Screen Translations ***",
+  "welcome": "Hello again!\nWelcome \nBack",
+  "signin": "Sign In",
+  "dont_have_account": "Don't have an account? ",
+  "_SignUp_Screen": "*** SignUp Screen ***",
+  "gettin_start": "Hello!\nSignup to\nget started",
+  "signup": "Sign Up",
+  "already_have_account": "Already have an account? "
+}

@@ -13,8 +13,10 @@ const Color FIFTH_COLOR = Color(0xFF80ADCD);
 const Color SIXTH_COLOR = Color(0xFF80ADCD);
 /// --------------------------- END colors section ------
 
+///-----------------------------icons url --------------
+const String LINGUIFY_LOGO= "assets/images/convo_cult_icon.png";
+///----------------------------- end url----------------
 
-///
 /// --------------------------- App info --------------
 ///
 

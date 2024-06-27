@@ -1,4 +1,5 @@
 import 'package:convocult/Constants/Constants.dart';
+import 'package:convocult/generated/l10n.dart';
 import 'package:convocult/screens/LoginPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -39,8 +40,7 @@ class SplashScreen extends StatelessWidget {
                     ),
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                   ),
-                  child: Text(
-                    'Next',
+                  child: Text(S.of(context).next,
                     style: TextStyle(
                       color: PRIMARY_COLOR,
                       fontSize: 18,

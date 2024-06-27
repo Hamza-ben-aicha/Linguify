@@ -1,0 +1,21 @@
+{
+  "title": "Linguify",
+  "app_short_description": "",
+  "_General": "*** العوالم العامة ***",
+  "email": "البريد الإلكتروني",
+  "password": "كلمة المرور",
+  "fullname": "الاسم الكامل",
+  "select_country": "اختر الدولة",
+  "confrim_password": "تأكيد كلمة المرور",
+  "forget_password": "هل نسيت كلمة المرور؟",
+  "_SplashScreen": "*** شاشة البداية ***",
+  "next": "التالي",
+  "_SignInScreen": "*** ترجمة شاشة تسجيل الدخول ***",
+  "welcome": "مرحباً مجدداً!\nأهلاً بك \nمن جديد",
+  "signin": "تسجيل الدخول",
+  "dont_have_account": "ليس لديك حساب؟",
+  "_SignUp_Screen": "*** شاشة التسجيل ***",
+  "gettin_start": "مرحباً!\nسجل\nللشروع",
+  "signup": "سجل",
+  "already_have_account": "هل لديك حساب بالفعل؟"
+}

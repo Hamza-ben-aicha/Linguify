@@ -1,4 +1,5 @@
 import 'package:convocult/Constants/Constants.dart';
+import 'package:convocult/generated/l10n.dart';
 import 'package:convocult/screens/ForgetPasswordPage.dart';
 import 'package:convocult/screens/SignUpPage.dart';
 import 'package:flutter/gestures.dart';
@@ -26,7 +27,7 @@ class Loginpage extends StatelessWidget{
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                    'Hello again!\nWelcome \nBack',
+                    S.of(context).welcome,
                     textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Colors.white,
@@ -42,7 +43,7 @@ class Loginpage extends StatelessWidget{
                 ),
                 SizedBox(height: 20),
                 Text(
-                  'Sign In',
+                  S.of(context).signin,
                   style: TextStyle(color: Colors.white, fontSize: 32),
                 ),
                 SizedBox(height: 40),
@@ -51,7 +52,7 @@ class Loginpage extends StatelessWidget{
                   child: TextFormField(
                     controller: emailController,
                     decoration: InputDecoration(
-                      hintText: 'Email',
+                      hintText: S.of(context).email,
                       filled: true,
                       fillColor: SECONDARY_COLOR,
                       suffixIcon: Icon(Icons.email, color: PRIMARY_COLOR),
@@ -75,7 +76,7 @@ class Loginpage extends StatelessWidget{
                   child: TextFormField(
                     controller: passwordController,
                     decoration: InputDecoration(
-                      hintText: 'Password',
+                      hintText: S.of(context).password,
                       filled: true,
                       fillColor: SECONDARY_COLOR ,
                       suffixIcon: Icon(Icons.lock, color: PRIMARY_COLOR),
@@ -103,7 +104,7 @@ class Loginpage extends StatelessWidget{
                           );
                         },
                         child: Text(
-                          'Forgot Password?',
+                          S.of(context).forget_password,
                           style: TextStyle(color: Colors.grey),
                         ),
                       ),
@@ -132,8 +133,7 @@ class Loginpage extends StatelessWidget{
                           print('Email: ${emailController.text}');
                           print('Password: ${passwordController.text}');
                           },
-                        child: Text(
-                          'Sign In',
+                        child: Text(S.of(context).signin,
                           style: TextStyle(fontSize: 20,color: PRIMARY_COLOR),
                         ),
                       ),
@@ -142,11 +142,11 @@ class Loginpage extends StatelessWidget{
                 SizedBox(height: 20),
                 RichText(
                   text: TextSpan(
-                    text: "Don't have an account? ",
+                    text: S.of(context).dont_have_account,
                     style: TextStyle(color: Colors.grey),
                     children: <TextSpan>[
                       TextSpan(
-                        text: 'Sign Up',
+                        text: S.of(context).signup,
                         style: TextStyle(
                           color: FIFTH_COLOR, // Color for the "Sign Up" part
                         ),

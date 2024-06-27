@@ -1,4 +1,5 @@
 import 'package:convocult/Constants/Constants.dart';
+import 'package:convocult/generated/l10n.dart';
 import 'package:convocult/screens/LoginPage.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/cupertino.dart';
@@ -32,8 +33,7 @@ class _SignUpPageState extends State<SignUpPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'Hello!\nSignup to\nget started',
+                  Text(S.of(context).gettin_start,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 32,
@@ -52,7 +52,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextFormField(
                   decoration: InputDecoration(
-                    labelText: 'Full Name',
+                    labelText: S.of(context).fullname,
                     labelStyle: TextStyle(color: Colors.white),
                     filled: true,
                     fillColor: Colors.white24,
@@ -69,7 +69,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextFormField(
                   decoration: InputDecoration(
-                    hintText: 'Email',
+                    hintText: S.of(context).email,
                     labelStyle: TextStyle(color: Colors.white),
                     filled: true,
                     fillColor: Colors.white24,
@@ -109,7 +109,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         SizedBox(width: 10),
                         Text(
                           selectedCountry == null
-                              ? 'Select Country'
+                              ? S.of(context).select_country
                               : selectedCountry!.name,
                           style: TextStyle(color: Colors.white),
                         ),
@@ -125,7 +125,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextFormField(
                   decoration: InputDecoration(
-                    labelText: 'Password',
+                    labelText: S.of(context).password,
                     labelStyle: TextStyle(color: Colors.white),
                     filled: true,
                     fillColor: Colors.white24,
@@ -144,7 +144,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextFormField(
                   decoration: InputDecoration(
-                    labelText: 'Confirm password',
+                    labelText: S.of(context).confrim_password,
                     labelStyle: TextStyle(color: Colors.white),
                     filled: true,
                     fillColor: Colors.white24,
@@ -180,7 +180,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       print("signup pressed ${i++} time");
                     },
                     child: Text(
-                      'Sign Up',
+                      S.of(context).signup,
                       style: TextStyle(fontSize: 20, color: PRIMARY_COLOR),
                     ),
                   ),
@@ -190,11 +190,11 @@ class _SignUpPageState extends State<SignUpPage> {
               Center(
                 child: RichText(
                   text: TextSpan(
-                    text: "Already have an account? ",
+                    text: S.of(context).already_have_account,
                     style: TextStyle(color: Colors.grey),
                     children: <TextSpan>[
                       TextSpan(
-                        text: 'Sign In',
+                        text: S.of(context).signin,
                         style: TextStyle(
                           color: FIFTH_COLOR,
                         ),

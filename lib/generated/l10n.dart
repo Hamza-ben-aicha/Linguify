@@ -239,6 +239,146 @@ class S {
       args: [],
     );
   }
+
+  /// `Email already in use`
+  String get email_already_in_use {
+    return Intl.message(
+      'Email already in use',
+      name: 'email_already_in_use',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid email`
+  String get invalid_email {
+    return Intl.message(
+      'Invalid email',
+      name: 'invalid_email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Weak password`
+  String get weak_password {
+    return Intl.message(
+      'Weak password',
+      name: 'weak_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `unknown_error`
+  String get unknown_error {
+    return Intl.message(
+      'unknown_error',
+      name: 'unknown_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Passwords do not match`
+  String get passwords_do_not_match {
+    return Intl.message(
+      'Passwords do not match',
+      name: 'passwords_do_not_match',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Complete Your Account Info\n1/2`
+  String get complete_accoun1 {
+    return Intl.message(
+      'Complete Your Account Info\n1/2',
+      name: 'complete_accoun1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Complete Your Account Info\n2/2`
+  String get complete_accoun2 {
+    return Intl.message(
+      'Complete Your Account Info\n2/2',
+      name: 'complete_accoun2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Interests`
+  String get interests {
+    return Intl.message(
+      'Interests',
+      name: 'interests',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Goals`
+  String get goals {
+    return Intl.message(
+      'Goals',
+      name: 'goals',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Languages you want to learn`
+  String get languages_to_learn {
+    return Intl.message(
+      'Languages you want to learn',
+      name: 'languages_to_learn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your native languages`
+  String get native_language {
+    return Intl.message(
+      'Your native languages',
+      name: 'native_language',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `signup failed`
+  String get signup_failed {
+    return Intl.message(
+      'signup failed',
+      name: 'signup_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `details updated successfully`
+  String get details_updated_successfully {
+    return Intl.message(
+      'details updated successfully',
+      name: 'details_updated_successfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `failed to update details`
+  String get failed_to_update_details {
+    return Intl.message(
+      'failed to update details',
+      name: 'failed_to_update_details',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -43,6 +43,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: any
+  firebase_auth: ^5.1.1
+  cloud_firestore: ^5.0.2
 
 dev_dependencies:
   flutter_test:

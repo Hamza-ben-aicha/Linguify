@@ -17,5 +17,19 @@
   "_SignUp_Screen": "*** SignUp Screen ***",
   "gettin_start": "Hello!\nSignup to\nget started",
   "signup": "Sign Up",
-  "already_have_account": "Already have an account? "
+  "already_have_account": "Already have an account? ",
+  "email_already_in_use": "Email already in use",
+  "invalid_email": "Invalid email",
+  "weak_password": "Weak password",
+  "unknown_error": "unknown_error",
+  "passwords_do_not_match": "Passwords do not match",
+  "complete_accoun1": "Complete Your Account Info\n1/2",
+  "complete_accoun2": "Complete Your Account Info\n2/2",
+  "interests": "Interests",
+  "goals": "Goals",
+  "languages_to_learn": "Languages you want to learn",
+  "native_language": "Your native languages",
+  "signup_failed": "signup failed",
+  "details_updated_successfully": "details updated successfully",
+  "failed_to_update_details": "failed to update details"
 }

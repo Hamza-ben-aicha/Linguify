@@ -1,17 +1,52 @@
 import 'package:convocult/Constants/Constants.dart';
 import 'package:convocult/generated/l10n.dart';
 import 'package:convocult/screens/ForgetPasswordPage.dart';
+import 'package:convocult/screens/HomePage.dart';
 import 'package:convocult/screens/SignUpPage.dart';
+import 'package:convocult/services/AuthService.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class Loginpage extends StatelessWidget{
-  const Loginpage({super.key});
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  Loginpage({super.key});
+
+  void login(BuildContext context) async {
+    final authService = Authservice();
+    try {
+      final result = await authService.signInWithEmailPassword(
+        emailController.text,
+        passwordController.text,
+      );
+
+      if (result.containsKey('token')) {
+        String token = result['token'];
+        Map<String, dynamic> userData = result['userData'];
+
+        // Navigate to another page with userData
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Homepage(),
+          ),
+        );
+      }
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Error'),
+          content: Text(e.toString()),
+        ),
+      );
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
 
 
     return Scaffold(
@@ -55,7 +90,7 @@ class Loginpage extends StatelessWidget{
                       hintText: S.of(context).email,
                       filled: true,
                       fillColor: SECONDARY_COLOR,
-                      suffixIcon: Icon(Icons.email, color: PRIMARY_COLOR),
+                      suffixIcon: Icon(Icons.email, color: SIXTH_COLOR),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(40),
                         borderSide: BorderSide(color: FIFTH_COLOR,width: 2),
@@ -79,7 +114,7 @@ class Loginpage extends StatelessWidget{
                       hintText: S.of(context).password,
                       filled: true,
                       fillColor: SECONDARY_COLOR ,
-                      suffixIcon: Icon(Icons.lock, color: PRIMARY_COLOR),
+                      suffixIcon: Icon(Icons.lock, color: SIXTH_COLOR),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(40),
                         borderSide: BorderSide(color: FIFTH_COLOR,width: 2),
@@ -130,8 +165,7 @@ class Loginpage extends StatelessWidget{
                           ),
                         ),
                         onPressed: () {
-                          print('Email: ${emailController.text}');
-                          print('Password: ${passwordController.text}');
+                          login(context);
                           },
                         child: Text(S.of(context).signin,
                           style: TextStyle(fontSize: 20,color: PRIMARY_COLOR),

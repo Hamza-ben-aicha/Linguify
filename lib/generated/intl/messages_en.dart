@@ -33,23 +33,45 @@ class MessageLookup extends MessageLookupByLibrary {
         "already_have_account":
             MessageLookupByLibrary.simpleMessage("Already have an account? "),
         "app_short_description": MessageLookupByLibrary.simpleMessage(""),
+        "complete_accoun1": MessageLookupByLibrary.simpleMessage(
+            "Complete Your Account Info\n1/2"),
+        "complete_accoun2": MessageLookupByLibrary.simpleMessage(
+            "Complete Your Account Info\n2/2"),
         "confrim_password":
             MessageLookupByLibrary.simpleMessage("Confirm Password"),
+        "details_updated_successfully": MessageLookupByLibrary.simpleMessage(
+            "details updated successfully"),
         "dont_have_account":
             MessageLookupByLibrary.simpleMessage("Don\'t have an account? "),
         "email": MessageLookupByLibrary.simpleMessage("Email"),
+        "email_already_in_use":
+            MessageLookupByLibrary.simpleMessage("Email already in use"),
+        "failed_to_update_details":
+            MessageLookupByLibrary.simpleMessage("failed to update details"),
         "forget_password":
             MessageLookupByLibrary.simpleMessage("Forgot Password? "),
         "fullname": MessageLookupByLibrary.simpleMessage("Full Name"),
         "gettin_start": MessageLookupByLibrary.simpleMessage(
             "Hello!\nSignup to\nget started"),
+        "goals": MessageLookupByLibrary.simpleMessage("Goals"),
+        "interests": MessageLookupByLibrary.simpleMessage("Interests"),
+        "invalid_email": MessageLookupByLibrary.simpleMessage("Invalid email"),
+        "languages_to_learn":
+            MessageLookupByLibrary.simpleMessage("Languages you want to learn"),
+        "native_language":
+            MessageLookupByLibrary.simpleMessage("Your native languages"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
         "password": MessageLookupByLibrary.simpleMessage("Password"),
+        "passwords_do_not_match":
+            MessageLookupByLibrary.simpleMessage("Passwords do not match"),
         "select_country":
             MessageLookupByLibrary.simpleMessage("Select Country"),
         "signin": MessageLookupByLibrary.simpleMessage("Sign In"),
         "signup": MessageLookupByLibrary.simpleMessage("Sign Up"),
+        "signup_failed": MessageLookupByLibrary.simpleMessage("signup failed"),
         "title": MessageLookupByLibrary.simpleMessage("Linguify"),
+        "unknown_error": MessageLookupByLibrary.simpleMessage("unknown_error"),
+        "weak_password": MessageLookupByLibrary.simpleMessage("Weak password"),
         "welcome":
             MessageLookupByLibrary.simpleMessage("Hello again!\nWelcome \nBack")
       };

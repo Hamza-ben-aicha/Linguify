@@ -1,13 +1,17 @@
 import 'package:convocult/Constants/Constants.dart';
 import 'package:convocult/generated/l10n.dart';
+import 'package:convocult/screens/AccountInfoPage.dart';
 import 'package:convocult/screens/LoginPage.dart';
+import 'package:convocult/services/user_service.dart';
 import 'package:country_picker/country_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class SignUpPage extends StatefulWidget {
-
   SignUpPage({super.key});
 
   @override
@@ -16,7 +20,68 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   Country? selectedCountry;
-  int i=0;
+
+  TextEditingController fullnameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+
+  UserService _userServices = UserService(); // Initialize UserServices
+
+  @override
+  void dispose() {
+    fullnameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  void signUp() async {
+    if (passwordController.text != confirmPasswordController.text) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(S.of(context).passwords_do_not_match)));
+      return;
+    }
+
+    try {
+      User? user = await _userServices.signUp(
+        emailController.text.trim(),
+        passwordController.text.trim(),
+        fullnameController.text.trim(),
+        selectedCountry?.name ?? 'Not specified',
+      );
+
+      if (user != null) {
+        // Navigate to account info page and pass user UID
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => AccountInfoPage(uid: user.uid)),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(S.of(context).signup_failed)));
+      }
+    } on FirebaseAuthException catch (e) {
+      String errorMessage;
+      switch (e.code) {
+        case 'email-already-in-use':
+          errorMessage = S.of(context).email_already_in_use;
+          break;
+        case 'invalid-email':
+          errorMessage = S.of(context).invalid_email;
+          break;
+        case 'weak-password':
+          errorMessage = S.of(context).weak_password;
+          break;
+        default:
+          errorMessage = S.of(context).unknown_error;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(errorMessage)));
+    } catch (e) {
+      print('Error signing up: $e');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(S.of(context).signup_failed)));
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +98,8 @@ class _SignUpPageState extends State<SignUpPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(S.of(context).gettin_start,
+                  Text(
+                    S.of(context).gettin_start,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 32,
@@ -51,34 +117,47 @@ class _SignUpPageState extends State<SignUpPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextFormField(
+                  controller: fullnameController,
                   decoration: InputDecoration(
-                    labelText: S.of(context).fullname,
-                    labelStyle: TextStyle(color: Colors.white),
+                    hintText: S.of(context).fullname,
                     filled: true,
-                    fillColor: Colors.white24,
+                    fillColor: SECONDARY_COLOR,
+                    suffixIcon: Icon(Icons.person, color: PRIMARY_COLOR),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(26),
+                      borderRadius: BorderRadius.circular(40),
+                      borderSide: BorderSide(color: FIFTH_COLOR, width: 2),
                     ),
-                    prefixIcon: Icon(Icons.person, color: Colors.white),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(40),
+                      borderSide: BorderSide(color: THIRD_COLOR, width: 2),
+                    ),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 20),
                   ),
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: PRIMARY_COLOR),
                 ),
               ),
               SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextFormField(
+                  controller: emailController,
                   decoration: InputDecoration(
                     hintText: S.of(context).email,
-                    labelStyle: TextStyle(color: Colors.white),
                     filled: true,
-                    fillColor: Colors.white24,
+                    fillColor: SECONDARY_COLOR,
+                    suffixIcon: Icon(Icons.email, color: PRIMARY_COLOR),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(26),
+                      borderRadius: BorderRadius.circular(40),
+                      borderSide: BorderSide(color: FIFTH_COLOR, width: 2),
                     ),
-                    prefixIcon: Icon(Icons.email, color: Colors.white),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(40),
+                      borderSide: BorderSide(color: THIRD_COLOR, width: 2),
+                    ),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 20),
                   ),
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: PRIMARY_COLOR),
+                  keyboardType: TextInputType.emailAddress,
                 ),
               ),
               SizedBox(height: 20),
@@ -99,22 +178,22 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
                     decoration: BoxDecoration(
-                      color: Colors.white24,
-                      borderRadius: BorderRadius.circular(26),
-                      border: Border.all(color: Colors.white, width: 1),
+                      color: SECONDARY_COLOR,
+                      borderRadius: BorderRadius.circular(40),
+                      border: Border.all(color: FIFTH_COLOR, width: 2),
                     ),
                     child: Row(
                       children: [
-                        Icon(Icons.flag, color: Colors.white),
+                        Icon(Icons.arrow_drop_down, color: PRIMARY_COLOR),
                         SizedBox(width: 10),
                         Text(
                           selectedCountry == null
                               ? S.of(context).select_country
                               : selectedCountry!.name,
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: PRIMARY_COLOR),
                         ),
                         Spacer(),
-                        Icon(Icons.arrow_drop_down, color: Colors.white),
+                        Icon(Icons.flag, color: PRIMARY_COLOR),
                       ],
                     ),
                   ),
@@ -124,18 +203,23 @@ class _SignUpPageState extends State<SignUpPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextFormField(
+                  controller: passwordController,
                   decoration: InputDecoration(
-                    labelText: S.of(context).password,
-                    labelStyle: TextStyle(color: Colors.white),
+                    hintText: S.of(context).password,
                     filled: true,
-                    fillColor: Colors.white24,
+                    fillColor: SECONDARY_COLOR,
+                    suffixIcon: Icon(Icons.lock, color: PRIMARY_COLOR),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(26),
+                      borderRadius: BorderRadius.circular(40),
+                      borderSide: BorderSide(color: FIFTH_COLOR, width: 2),
                     ),
-                    prefixIcon: Icon(Icons.lock, color: Colors.white),
-                    suffixIcon: Icon(Icons.visibility_off, color: Colors.white),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(40),
+                      borderSide: BorderSide(color: THIRD_COLOR, width: 2),
+                    ),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 20),
                   ),
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: PRIMARY_COLOR),
                   obscureText: true,
                 ),
               ),
@@ -143,18 +227,23 @@ class _SignUpPageState extends State<SignUpPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextFormField(
+                  controller: confirmPasswordController,
                   decoration: InputDecoration(
-                    labelText: S.of(context).confrim_password,
-                    labelStyle: TextStyle(color: Colors.white),
+                    hintText: S.of(context).confrim_password,
                     filled: true,
-                    fillColor: Colors.white24,
+                    fillColor: SECONDARY_COLOR,
+                    suffixIcon: Icon(Icons.lock, color: PRIMARY_COLOR),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(26),
+                      borderRadius: BorderRadius.circular(40),
+                      borderSide: BorderSide(color: FIFTH_COLOR, width: 2),
                     ),
-                    prefixIcon: Icon(Icons.lock, color: Colors.white),
-                    suffixIcon: Icon(Icons.visibility_off, color: Colors.white),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(40),
+                      borderSide: BorderSide(color: THIRD_COLOR, width: 2),
+                    ),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 20),
                   ),
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: PRIMARY_COLOR),
                   obscureText: true,
                 ),
               ),
@@ -176,8 +265,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ),
                     onPressed: () {
-                      // Handle Sign Up action
-                      print("signup pressed ${i++} time");
+                      signUp();
                     },
                     child: Text(
                       S.of(context).signup,
@@ -200,11 +288,9 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            // Handle Sign In action
                             Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) => Loginpage()),
+                              MaterialPageRoute(builder: (context) => Loginpage()),
                             );
                           },
                       ),

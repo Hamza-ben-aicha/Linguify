@@ -1,6 +1,7 @@
 import 'package:convocult/Constants/Constants.dart';
 import 'package:convocult/generated/l10n.dart';
 import 'package:convocult/screens/LoginPage.dart';
+import 'package:convocult/services/AuthGate.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +27,7 @@ class SplashScreen extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => Loginpage()),
+                      MaterialPageRoute(builder: (context) => AuthGate()),
                     );
                   },
                   style: ElevatedButton.styleFrom(

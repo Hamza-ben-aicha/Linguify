@@ -31,5 +31,5 @@
   "native_language": "Your native languages",
   "signup_failed": "signup failed",
   "details_updated_successfully": "details updated successfully",
-  "failed_to_update_details": "failed to update details"
+  "failed_to_update_details": "failed to update details"  
 }

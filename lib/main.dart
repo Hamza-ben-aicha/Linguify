@@ -1,5 +1,6 @@
 import 'package:convocult/Constants/Constants.dart';
 import 'package:convocult/generated/l10n.dart';
+import 'package:convocult/screens/AccountInfoPage2.dart';
 import 'package:convocult/screens/LoginPage.dart';
 import 'package:convocult/screens/SplashScreen.dart';
 import 'package:convocult/themes/light_mode.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: S.delegate.supportedLocales,
+      // home: SplashScreen(),
       home: SplashScreen(),
     );
   }

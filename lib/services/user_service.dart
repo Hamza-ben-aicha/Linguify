@@ -27,7 +27,17 @@ class UserService {
     }
   }
 
-  Future<void> updateUserDetails(String uid, {List<String>? interests, List<String>? goals, List<String>? languagesToLearn, String? nativeLanguage, String? accountImage, String? birthdate, String? bio, String? gender}) async {
+  Future<void> updateUserDetails(String uid, {
+    List<String>? interests,
+    List<String>? goals,
+    List<String>? languagesToLearn,
+    String? nativeLanguage,
+    String? accountImage,
+    String? birthdate,
+    String? bio,
+    String? gender,
+    int? signupStep,
+  }) async {
     Map<String, dynamic> data = {};
 
     if (interests != null) data['interests'] = interests;
@@ -38,6 +48,7 @@ class UserService {
     if (birthdate != null) data['birthdate'] = birthdate;
     if (bio != null) data['bio'] = bio;
     if (gender != null) data['gender'] = gender;
+    if (signupStep != null) data['signup_step'] = signupStep;
 
     try {
       await _firebaseService.firestore.collection('users').doc(uid).update(data);
@@ -45,6 +56,20 @@ class UserService {
       print('Error updating user details: $e');
     }
   }
+
+  Future<int?> getUserSignupStep(String uid) async {
+    try {
+      DocumentSnapshot doc = await _firebaseService.firestore.collection('users').doc(uid).get();
+      if (doc.exists) {
+        var data = doc.data() as Map<String, dynamic>;
+        return data['signup_step'] as int?;
+      }
+    } catch (e) {
+      print('Error getting signup step: $e');
+    }
+    return null;
+  }
+
 
   Future<UserModel?> getUser(String uid) async {
     try {
@@ -78,4 +103,7 @@ class UserService {
     }
   }
 
+  Future<void> signOut() async {
+    return await _firebaseService.auth.signOut();
+  }
 }

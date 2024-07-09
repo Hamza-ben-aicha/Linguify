@@ -1,5 +1,6 @@
 import 'package:convocult/Constants/Constants.dart';
 import 'package:convocult/generated/l10n.dart';
+import 'package:convocult/screens/AccountInfoPage2.dart';
 import 'package:convocult/services/user_service.dart';
 import 'package:flutter/material.dart';
 
@@ -74,11 +75,13 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
         interests: interests,
         goals: goals,
         languagesToLearn: languagesToLearn,
-        nativeLanguage: nativeLanguages.isNotEmpty ? nativeLanguages[0] : null, // Assuming only one native language is selected
+        nativeLanguage: nativeLanguages.isNotEmpty ? nativeLanguages[0] : null,// Assuming only one native language is selected
+        signupStep : 2, // Update signup_step to 2,
       );
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(S.of(context).details_updated_successfully),
       ));
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>CompleteAccountPage2(username: "Hamza ben aicha")));
     } catch (e) {
       print('Error updating user details: $e');
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

@@ -1,9 +1,8 @@
-import 'package:convocult/Constants/Constants.dart';
 import 'package:convocult/generated/l10n.dart';
 import 'package:convocult/screens/AccountInfoPage2.dart';
-import 'package:convocult/screens/LoginPage.dart';
+import 'package:convocult/screens/ForgetPasswordPage.dart';
+import 'package:convocult/screens/HomePage.dart';
 import 'package:convocult/screens/SplashScreen.dart';
-import 'package:convocult/themes/light_mode.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -25,7 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      locale: const Locale('en'),
+      locale: const Locale('fr'),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: [
         S.delegate,
@@ -35,7 +34,11 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: S.delegate.supportedLocales,
       // home: SplashScreen(),
-      home: SplashScreen(),
+      home: CompleteAccountPage2(username: "Hamza "),
+      routes: {
+        '/forgot_password': (context) => ForgotPasswordPage(),
+        'home':(context) => HomePage()
+      },
     );
   }
 }

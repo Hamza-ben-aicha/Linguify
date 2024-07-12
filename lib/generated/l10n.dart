@@ -379,6 +379,136 @@ class S {
       args: [],
     );
   }
+
+  /// `Forgot Password`
+  String get forgot_password {
+    return Intl.message(
+      'Forgot Password',
+      name: 'forgot_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your email`
+  String get enter_your_email {
+    return Intl.message(
+      'Enter your email',
+      name: 'enter_your_email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send Password Reset Email`
+  String get send_password_reset_email {
+    return Intl.message(
+      'Send Password Reset Email',
+      name: 'send_password_reset_email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remembered your password?`
+  String get remembered_password {
+    return Intl.message(
+      'Remembered your password?',
+      name: 'remembered_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password reset email sent`
+  String get password_reset_email_sent {
+    return Intl.message(
+      'Password reset email sent',
+      name: 'password_reset_email_sent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter an email address`
+  String get enter_email_address {
+    return Intl.message(
+      'Please enter an email address',
+      name: 'enter_email_address',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hello `
+  String get hello {
+    return Intl.message(
+      'Hello ',
+      name: 'hello',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Birthdate`
+  String get birthdate {
+    return Intl.message(
+      'Birthdate',
+      name: 'birthdate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Biography`
+  String get biography {
+    return Intl.message(
+      'Biography',
+      name: 'biography',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your biography`
+  String get enter_biography {
+    return Intl.message(
+      'Please enter your biography',
+      name: 'enter_biography',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gender`
+  String get gender {
+    return Intl.message(
+      'Gender',
+      name: 'gender',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Male`
+  String get male {
+    return Intl.message(
+      'Male',
+      name: 'male',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Female`
+  String get female {
+    return Intl.message(
+      'Female',
+      name: 'female',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:convocult/models/User.dart';
 import 'package:convocult/services/FirebaseService.dart';
@@ -5,6 +7,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class UserService {
   final FirebaseService _firebaseService = FirebaseService.instance;
+
+  // Timer for periodic token refresh
+  Timer? _tokenRefreshTimer;
 
   Future<User?> signUp(String email, String password, String fullName, String country) async {
     try {
@@ -18,6 +23,7 @@ class UserService {
         await _firebaseService.firestore.collection('users').doc(user.uid).set({
           'full_name': fullName,
           'country': country,
+          'email': email
         });
       }
       return user;
@@ -70,7 +76,6 @@ class UserService {
     return null;
   }
 
-
   Future<UserModel?> getUser(String uid) async {
     try {
       DocumentSnapshot doc = await _firebaseService.firestore.collection('users').doc(uid).get();
@@ -85,7 +90,6 @@ class UserService {
     }
   }
 
-  // Login user
   Future<User?> loginUser({
     required String email,
     required String password,
@@ -96,6 +100,10 @@ class UserService {
         password: password,
       );
       User? user = userCredential.user;
+
+      // Setup token refresh
+      _setupTokenRefresh();
+
       return user;
     } catch (e) {
       print(e);
@@ -103,7 +111,63 @@ class UserService {
     }
   }
 
+  Future<Map<String, dynamic>> signInWithEmailPassword(String email, String password) async {
+    try {
+      UserCredential userCredential = await _firebaseService.auth.signInWithEmailAndPassword(email: email, password: password);
+      String? token = await userCredential.user?.getIdToken(true);
+
+      DocumentSnapshot userDoc = await _firebaseService.firestore.collection('users').doc(userCredential.user?.uid).get();
+
+      if (userDoc.exists) {
+        // Setup token refresh
+        _setupTokenRefresh();
+
+        return {
+          'token': token,
+          'userData': userDoc.data(),
+          'uid': userCredential.user?.uid
+        };
+      } else {
+        throw Exception('User document does not exist');
+      }
+    } on FirebaseAuthException catch (e) {
+      throw Exception(e.code);
+    }
+  }
+
   Future<void> signOut() async {
+    _cancelTokenRefresh();
     return await _firebaseService.auth.signOut();
   }
+
+  void _setupTokenRefresh() {
+    // Cancel any existing timer
+    _cancelTokenRefresh();
+
+    // Set up a new timer to refresh the token every 55 minutes
+    _tokenRefreshTimer = Timer.periodic(Duration(minutes: 55), (timer) async {
+      try {
+        User? user = _firebaseService.auth.currentUser;
+        if (user != null) {
+          await user.getIdToken(true); // Force refresh the token
+        }
+      } catch (e) {
+        print('Error refreshing token: $e');
+      }
+    });
+  }
+
+  void _cancelTokenRefresh() {
+    _tokenRefreshTimer?.cancel();
+  }
+
+  Future<void> sendPasswordResetEmail(String email) async {
+    try {
+      await _firebaseService.auth.sendPasswordResetEmail(email: email);
+      print('Password reset email sent');
+    } catch (e) {
+      print('Error sending password reset email: $e');
+    }
+  }
+
 }

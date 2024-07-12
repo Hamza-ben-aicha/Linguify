@@ -3,6 +3,7 @@ import 'package:convocult/generated/l10n.dart';
 import 'package:convocult/screens/AccountInfoPage.dart';
 import 'package:convocult/screens/LoginPage.dart';
 import 'package:convocult/services/user_service.dart';
+import 'package:convocult/utility/signup_steps_util.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -104,11 +105,8 @@ class _SignUpPageState extends State<SignUpPage> {
             .doc(user.uid)
             .set({'signup_step': 1}, SetOptions(merge: true));
 
-        // Navigate to account info page and pass user UID
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => AccountInfoPage(uid: user.uid)),
-        );
+        // Handle signup steps
+        await handleSignupSteps(context, user.uid);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(S.of(context).signup_failed)));

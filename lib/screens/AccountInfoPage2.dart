@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:intl/intl.dart';
-import 'package:firebase_auth/firebase_auth.dart'; // Import Firebase Auth
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:convocult/generated/l10n.dart';
 
 class CompleteAccountPage2 extends StatefulWidget {
   final String username;
@@ -66,35 +67,31 @@ class _CompleteAccountPage2State extends State<CompleteAccountPage2> {
 
   void _updateUserDetails() async {
     if (_formKey.currentState!.validate()) {
-      String uid = FirebaseAuth.instance.currentUser!.uid; // Get current user's UID
+      String uid = FirebaseAuth.instance.currentUser!.uid;
       String bio = _bioController.text;
       String birthdate = _selectedDate.toIso8601String();
       String gender = _selectedGender;
       String? accountImage = _imageFile?.path;
 
-      // Create an instance of UserService
       UserService userService = UserService();
 
-      // Call updateUserDetails method
       await userService.updateUserDetails(
         uid,
         bio: bio,
         birthdate: birthdate,
         gender: gender,
         accountImage: accountImage,
-        signupStep:3,
+        signupStep: 3,
       );
 
-      // Navigate to the next screen or show a success message
-      // Navigator.push(context, MaterialPageRoute(builder: (context) => NextPage()));
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('User details updated successfully')));
+      Navigator.pushNamed(context, '/home');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF0D1B2A),
+      backgroundColor: PRIMARY_COLOR,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -106,11 +103,8 @@ class _CompleteAccountPage2State extends State<CompleteAccountPage2> {
                   onTap: _pickImage,
                   child: CircleAvatar(
                     radius: 50,
-                    backgroundImage: _imageFile == null
-                        ? AssetImage('assets/placeholder.png')
-                        : FileImage(File(_imageFile!.path)) as ImageProvider,
                     child: _imageFile == null
-                        ? Icon(Icons.add_a_photo, size: 50, color: Colors.white)
+                        ? Icon(Icons.add_a_photo, size: 50, color: PRIMARY_COLOR)
                         : Container(),
                   ),
                 ),
@@ -118,12 +112,12 @@ class _CompleteAccountPage2State extends State<CompleteAccountPage2> {
               SizedBox(height: 16.0),
               Center(
                 child: Text(
-                  'Hello ${widget.username}',
+                  S.of(context).hello+(widget.username),
                   style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
               ),
               SizedBox(height: 16.0),
-              Text('Birthdate', style: TextStyle(fontSize: 16, color: Colors.white)),
+              Text(S.of(context).birthdate, style: TextStyle(fontSize: 16, color: Colors.white)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -141,12 +135,17 @@ class _CompleteAccountPage2State extends State<CompleteAccountPage2> {
               TextFormField(
                 controller: _bioController,
                 decoration: InputDecoration(
-                  labelText: 'Biography',
+                  hintText: S.of(context).biography,
                   labelStyle: TextStyle(color: Colors.white),
                   filled: true,
-                  fillColor: Color(0xFF1B263B),
+                  fillColor: SECONDARY_COLOR,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
+                    borderRadius: BorderRadius.circular(40),
+                    borderSide: BorderSide(color: FIFTH_COLOR, width: 2),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(40),
+                    borderSide: BorderSide(color: THIRD_COLOR, width: 2),
                   ),
                 ),
                 style: TextStyle(color: Colors.white),
@@ -154,13 +153,13 @@ class _CompleteAccountPage2State extends State<CompleteAccountPage2> {
                 maxLines: null,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your biography';
+                    return S.of(context).enter_biography;
                   }
                   return null;
                 },
               ),
               SizedBox(height: 16.0),
-              Text('Gender', style: TextStyle(fontSize: 16, color: Colors.white)),
+              Text(S.of(context).gender, style: TextStyle(fontSize: 16, color: Colors.white)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -174,9 +173,9 @@ class _CompleteAccountPage2State extends State<CompleteAccountPage2> {
                             _selectedGender = value!;
                           });
                         },
-                        activeColor: Colors.blue,
+                        activeColor: Color(0xFF36D7DF),
                       ),
-                      Text('Male', style: TextStyle(color: Colors.white)),
+                      Text(S.of(context).male, style: TextStyle(color: Colors.white)),
                     ],
                   ),
                   Row(
@@ -191,7 +190,7 @@ class _CompleteAccountPage2State extends State<CompleteAccountPage2> {
                         },
                         activeColor: Colors.pink,
                       ),
-                      Text('Female', style: TextStyle(color: Colors.white)),
+                      Text(S.of(context).female, style: TextStyle(color: Colors.white)),
                     ],
                   ),
                 ],
@@ -200,15 +199,26 @@ class _CompleteAccountPage2State extends State<CompleteAccountPage2> {
               ElevatedButton(
                 onPressed: _updateUserDetails,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFFFFD6BA),
+                  backgroundColor: THIRD_COLOR,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(26),
+                      topRight: Radius.circular(26),
+                      bottomLeft: Radius.circular(26),
+                    ),
                   ),
                   padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 28.0),
                 ),
-                child: Text(
-                  'Next',
-                  style: TextStyle(color: Colors.black),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      S.of(context).next,
+                      style: TextStyle(color: PRIMARY_COLOR),
+                    ),
+                    SizedBox(width: 8.0),
+                    Icon(Icons.arrow_forward, color: PRIMARY_COLOR),
+                  ],
                 ),
               ),
             ],

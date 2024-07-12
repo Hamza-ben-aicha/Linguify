@@ -33,6 +33,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "already_have_account":
             MessageLookupByLibrary.simpleMessage("Already have an account? "),
         "app_short_description": MessageLookupByLibrary.simpleMessage(""),
+        "biography": MessageLookupByLibrary.simpleMessage("Biography"),
+        "birthdate": MessageLookupByLibrary.simpleMessage("Birthdate"),
         "complete_accoun1": MessageLookupByLibrary.simpleMessage(
             "Complete Your Account Info\n1/2"),
         "complete_accoun2": MessageLookupByLibrary.simpleMessage(
@@ -46,26 +48,44 @@ class MessageLookup extends MessageLookupByLibrary {
         "email": MessageLookupByLibrary.simpleMessage("Email"),
         "email_already_in_use":
             MessageLookupByLibrary.simpleMessage("Email already in use"),
+        "enter_biography":
+            MessageLookupByLibrary.simpleMessage("Please enter your biography"),
+        "enter_email_address": MessageLookupByLibrary.simpleMessage(
+            "Please enter an email address"),
+        "enter_your_email":
+            MessageLookupByLibrary.simpleMessage("Enter your email"),
         "failed_to_update_details":
             MessageLookupByLibrary.simpleMessage("failed to update details"),
+        "female": MessageLookupByLibrary.simpleMessage("Female"),
         "forget_password":
             MessageLookupByLibrary.simpleMessage("Forgot Password? "),
+        "forgot_password":
+            MessageLookupByLibrary.simpleMessage("Forgot Password"),
         "fullname": MessageLookupByLibrary.simpleMessage("Full Name"),
+        "gender": MessageLookupByLibrary.simpleMessage("Gender"),
         "gettin_start": MessageLookupByLibrary.simpleMessage(
             "Hello!\nSignup to\nget started"),
         "goals": MessageLookupByLibrary.simpleMessage("Goals"),
+        "hello": MessageLookupByLibrary.simpleMessage("Hello "),
         "interests": MessageLookupByLibrary.simpleMessage("Interests"),
         "invalid_email": MessageLookupByLibrary.simpleMessage("Invalid email"),
         "languages_to_learn":
             MessageLookupByLibrary.simpleMessage("Languages you want to learn"),
+        "male": MessageLookupByLibrary.simpleMessage("Male"),
         "native_language":
             MessageLookupByLibrary.simpleMessage("Your native languages"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
         "password": MessageLookupByLibrary.simpleMessage("Password"),
+        "password_reset_email_sent":
+            MessageLookupByLibrary.simpleMessage("Password reset email sent"),
         "passwords_do_not_match":
             MessageLookupByLibrary.simpleMessage("Passwords do not match"),
+        "remembered_password":
+            MessageLookupByLibrary.simpleMessage("Remembered your password?"),
         "select_country":
             MessageLookupByLibrary.simpleMessage("Select Country"),
+        "send_password_reset_email":
+            MessageLookupByLibrary.simpleMessage("Send Password Reset Email"),
         "signin": MessageLookupByLibrary.simpleMessage("Sign In"),
         "signup": MessageLookupByLibrary.simpleMessage("Sign Up"),
         "signup_failed": MessageLookupByLibrary.simpleMessage("signup failed"),

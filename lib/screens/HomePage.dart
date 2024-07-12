@@ -43,15 +43,16 @@ class _HomePageState extends State<HomePage> {
       
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.chat_bubble_outline, color: PRIMARY_COLOR), // Dark color for unselected icons
-              activeIcon: Icon(Icons.chat_bubble, color: FIFTH_COLOR), // Orange color for selected icon
-              label: 'Chat',
-            ),
-            BottomNavigationBarItem(
               icon: Icon(Icons.person_outline, color:PRIMARY_COLOR), // Dark color for unselected icons
               activeIcon: Icon(Icons.person, color:FIFTH_COLOR), // Orange color for selected icon
               label: 'Profile',
             ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.chat_bubble_outline, color: PRIMARY_COLOR), // Dark color for unselected icons
+              activeIcon: Icon(Icons.chat_bubble, color: FIFTH_COLOR), // Orange color for selected icon
+              label: 'Chat',
+            ),
+
             BottomNavigationBarItem(
               icon: Icon(Icons.search_outlined, color: PRIMARY_COLOR), // Dark color for unselected icons
               activeIcon: Icon(Icons.search, color: FIFTH_COLOR), // Orange color for selected icon

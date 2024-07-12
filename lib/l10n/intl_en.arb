@@ -31,5 +31,21 @@
   "native_language": "Your native languages",
   "signup_failed": "signup failed",
   "details_updated_successfully": "details updated successfully",
-  "failed_to_update_details": "failed to update details"  
+  "failed_to_update_details": "failed to update details",
+
+  "forgot_password": "Forgot Password",
+  "enter_your_email": "Enter your email",
+  "send_password_reset_email": "Send Password Reset Email",
+  "remembered_password": "Remembered your password?",
+  "password_reset_email_sent": "Password reset email sent",
+  "enter_email_address": "Please enter an email address",
+
+  "hello": "Hello ",
+  "birthdate": "Birthdate",
+  "biography": "Biography",
+  "enter_biography": "Please enter your biography",
+  "gender": "Gender",
+  "male": "Male",
+  "female": "Female"
+
 }

@@ -2,6 +2,7 @@ import 'package:convocult/generated/l10n.dart';
 import 'package:convocult/screens/AccountInfoPage2.dart';
 import 'package:convocult/screens/ForgetPasswordPage.dart';
 import 'package:convocult/screens/HomePage.dart';
+import 'package:convocult/screens/LoginPage.dart';
 import 'package:convocult/screens/SplashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -37,7 +38,8 @@ class MyApp extends StatelessWidget {
       // home: CompleteAccountPage2(username: "Hamza "),
       routes: {
         '/forgot_password': (context) => ForgotPasswordPage(),
-        '/home':(context) => HomePage()
+        '/home':(context) => HomePage(),
+        '/login':(context) => Loginpage()
       },
     );
   }

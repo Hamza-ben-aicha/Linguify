@@ -84,7 +84,8 @@ class _CompleteAccountPage2State extends State<CompleteAccountPage2> {
         signupStep: 3,
       );
 
-      Navigator.pushNamed(context, '/home');
+      userService.signOut();
+      Navigator.pushNamed(context, '/login');
     }
   }
 

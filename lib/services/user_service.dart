@@ -1,9 +1,10 @@
 import 'dart:async';
-
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:convocult/models/User.dart';
 import 'package:convocult/services/FirebaseService.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class UserService {
   final FirebaseService _firebaseService = FirebaseService.instance;
@@ -38,7 +39,7 @@ class UserService {
     List<String>? goals,
     List<String>? languagesToLearn,
     String? nativeLanguage,
-    String? accountImage,
+    File? accountImage,
     String? birthdate,
     String? bio,
     String? gender,
@@ -50,7 +51,13 @@ class UserService {
     if (goals != null) data['goals'] = goals;
     if (languagesToLearn != null) data['languages_to_learn'] = languagesToLearn;
     if (nativeLanguage != null) data['native_language'] = nativeLanguage;
-    if (accountImage != null) data['account_image'] = accountImage;
+    if (accountImage != null) {
+      // Upload image to Firebase Storage
+      Reference storageRef = _firebaseService.storage.ref().child('user_images').child(uid + '.jpg');
+      await storageRef.putFile(accountImage);
+      String downloadUrl = await storageRef.getDownloadURL();
+      data['account_image'] = downloadUrl;
+    }
     if (birthdate != null) data['birthdate'] = birthdate;
     if (bio != null) data['bio'] = bio;
     if (gender != null) data['gender'] = gender;
@@ -170,4 +177,15 @@ class UserService {
     }
   }
 
+
+  Future<List<String>> getHobbies() async {
+    try {
+      QuerySnapshot querySnapshot = await _firebaseService.firestore.collection('hobbies').get();
+      List<String> hobbies = querySnapshot.docs.map((doc) => doc['hobby'] as String).toList();
+      return hobbies;
+    } catch (e) {
+      print("Error fetching hobbies: $e");
+      return [];
+    }
+  }
 }

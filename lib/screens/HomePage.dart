@@ -11,11 +11,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
 
   static List<Widget> _widgetOptions = <Widget>[
-    ChatPage(),
     ProfilePage(),
+    ChatPage(),
     SearchPage(),
     SettingsPage(),
   ];
@@ -35,16 +35,15 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(10.0), // Adjust the radius as needed
-        topRight: Radius.circular(10.0), // Adjust the radius as needed
-      ),
-      child: BottomNavigationBar(
+          topLeft: Radius.circular(10.0), // Adjust the radius as needed
+          topRight: Radius.circular(10.0), // Adjust the radius as needed
+        ),
+        child: BottomNavigationBar(
           backgroundColor: THIRD_COLOR, // Light peach background color
-      
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline, color:PRIMARY_COLOR), // Dark color for unselected icons
-              activeIcon: Icon(Icons.person, color:FIFTH_COLOR), // Orange color for selected icon
+              icon: Icon(Icons.person_outline, color: PRIMARY_COLOR), // Dark color for unselected icons
+              activeIcon: Icon(Icons.person, color: FIFTH_COLOR), // Orange color for selected icon
               label: 'Profile',
             ),
             BottomNavigationBarItem(
@@ -52,7 +51,6 @@ class _HomePageState extends State<HomePage> {
               activeIcon: Icon(Icons.chat_bubble, color: FIFTH_COLOR), // Orange color for selected icon
               label: 'Chat',
             ),
-
             BottomNavigationBarItem(
               icon: Icon(Icons.search_outlined, color: PRIMARY_COLOR), // Dark color for unselected icons
               activeIcon: Icon(Icons.search, color: FIFTH_COLOR), // Orange color for selected icon
@@ -70,7 +68,7 @@ class _HomePageState extends State<HomePage> {
           onTap: _onItemTapped,
           type: BottomNavigationBarType.fixed, // Ensures all items are displayed
         ),
-    ),
+      ),
     );
   }
 }

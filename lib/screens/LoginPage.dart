@@ -6,6 +6,7 @@
   import 'package:convocult/screens/HomePage.dart';
   import 'package:convocult/screens/SignUpPage.dart';
   import 'package:convocult/services/user_service.dart';
+import 'package:convocult/shared%20preference/SharedPreferencesManager.dart';
 import 'package:convocult/utility/signup_steps_util.dart';
   import 'package:flutter/gestures.dart';
   import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ import 'package:convocult/utility/signup_steps_util.dart';
   class Loginpage extends StatelessWidget {
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
+    final prefsManager = SharedPreferencesManager(); // Create an instance of SharedPreferencesManager
 
     Loginpage({super.key});
 
@@ -23,11 +25,13 @@ import 'package:convocult/utility/signup_steps_util.dart';
           emailController.text,
           passwordController.text,
         );
-        print("my data --------> $result");
         if (result.containsKey('token')) {
           String token = result['token'];
           Map<String, dynamic> userData = result['userData'];
           String uid = result['uid'];
+
+          await prefsManager.saveUserData(userData);
+
 
           // Handle signup steps
           await handleSignupSteps(context, uid);

@@ -71,7 +71,7 @@ class _CompleteAccountPage2State extends State<CompleteAccountPage2> {
       String bio = _bioController.text;
       String birthdate = _selectedDate.toIso8601String();
       String gender = _selectedGender;
-      String? accountImage = _imageFile?.path;
+      File? accountImage = _imageFile != null ? File(_imageFile!.path) : null;
 
       UserService userService = UserService();
 
@@ -103,6 +103,7 @@ class _CompleteAccountPage2State extends State<CompleteAccountPage2> {
                   onTap: _pickImage,
                   child: CircleAvatar(
                     radius: 50,
+                    backgroundImage: _imageFile != null ? FileImage(File(_imageFile!.path)) : null,
                     child: _imageFile == null
                         ? Icon(Icons.add_a_photo, size: 50, color: PRIMARY_COLOR)
                         : Container(),
@@ -136,7 +137,6 @@ class _CompleteAccountPage2State extends State<CompleteAccountPage2> {
                 controller: _bioController,
                 decoration: InputDecoration(
                   hintText: S.of(context).biography,
-                  labelStyle: TextStyle(color: Colors.white),
                   filled: true,
                   fillColor: SECONDARY_COLOR,
                   border: OutlineInputBorder(
@@ -148,7 +148,7 @@ class _CompleteAccountPage2State extends State<CompleteAccountPage2> {
                     borderSide: BorderSide(color: THIRD_COLOR, width: 2),
                   ),
                 ),
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: PRIMARY_COLOR),
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
                 validator: (value) {

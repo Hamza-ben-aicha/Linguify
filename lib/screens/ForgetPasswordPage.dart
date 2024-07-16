@@ -38,26 +38,16 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      S.of(context).forgot_password,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 40),
-                    Container(
-                      height: 150,
-                      child: Image.asset("assets/images/convo_cult_icon.png"),
-                    ),
-                  ],
+                Text(
+                  S.of(context).forgot_password,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 100),
                 Text(
                   S.of(context).enter_your_email,
                   style: TextStyle(color: Colors.white, fontSize: 32),

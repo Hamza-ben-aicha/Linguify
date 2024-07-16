@@ -33,11 +33,11 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: S.delegate.supportedLocales,
-      // home: SplashScreen(),
-      home: CompleteAccountPage2(username: "Hamza "),
+      home: SplashScreen(),
+      // home: CompleteAccountPage2(username: "Hamza "),
       routes: {
         '/forgot_password': (context) => ForgotPasswordPage(),
-        'home':(context) => HomePage()
+        '/home':(context) => HomePage()
       },
     );
   }

@@ -35,4 +35,6 @@ const String C_APP_INFO = "AppInfo";
 const String C_USERS = "Users";
 
 
+const String keyUserData = 'userData';
+
 

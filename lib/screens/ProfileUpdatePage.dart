@@ -22,8 +22,10 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
   final List<String> nativeLanguages = [];
   final TextEditingController interestsController = TextEditingController();
   final TextEditingController goalsController = TextEditingController();
-  final TextEditingController languagesToLearnController = TextEditingController();
-  final TextEditingController nativeLanguagesController = TextEditingController();
+  final TextEditingController languagesToLearnController =
+      TextEditingController();
+  final TextEditingController nativeLanguagesController =
+      TextEditingController();
   final TextEditingController bioController = TextEditingController();
   final TextEditingController countryController = TextEditingController();
   final TextEditingController birthdateController = TextEditingController();
@@ -37,24 +39,10 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
   DateTime? _selectedBirthdate;
   late Future<void> _loadUserDataFuture;
 
-  // New variables for autocomplete functionality
-  List<Map<String, String>> allHobbies = [];
-  List<String> hobbySuggestions = [];
-
   @override
   void initState() {
     super.initState();
     _loadUserDataFuture = _loadUserDataFromPreferences();
-    _loadHobbies();
-  }
-
-  Future<void> _loadHobbies() async {
-    try {
-      allHobbies = await _userServices.getHobbies();
-      hobbySuggestions = allHobbies.map((hobby) => hobby['hobby']!).toList();
-    } catch (e) {
-      print('Error loading hobbies: $e');
-    }
   }
 
   Future<void> _loadUserDataFromPreferences() async {
@@ -76,10 +64,12 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
           goals.addAll(List<String>.from(_userData?['goals'] ?? []));
 
           languagesToLearn.clear();
-          languagesToLearn.addAll(List<String>.from(_userData?['languages_to_learn'] ?? []));
+          languagesToLearn.addAll(
+              List<String>.from(_userData?['languages_to_learn'] ?? []));
 
           nativeLanguages.clear();
-          nativeLanguages.addAll(List<String>.from(_userData?['native_language'] ?? []));
+          nativeLanguages
+              .addAll(List<String>.from(_userData?['native_language'] ?? []));
 
           // Set the selected birthdate
           String? birthdateString = _userData?['birthdate'];
@@ -94,7 +84,8 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
   }
 
   Future<void> _pickImage() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     setState(() {
       if (pickedFile != null) {
         _profileImage = File(pickedFile.path);
@@ -135,7 +126,7 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(S.of(context).details_updated_successfully),
       ));
-      Navigator.pop(context, true); // Navigate back after successful update
+      Navigator.pop(context,true); // Navigate back after successful update
     } catch (e) {
       print('Error updating user details: $e');
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -144,17 +135,12 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
     }
   }
 
-  void _addChip(List<String> list, String text) {
+  void _addChip(List<String> list, TextEditingController controller) {
     setState(() {
-      if (text.isNotEmpty) {
-        list.add(text);
+      if (controller.text.isNotEmpty) {
+        list.add(controller.text);
+        controller.clear();
       }
-    });
-  }
-
-  void _removeChip(List<String> list, String text) {
-    setState(() {
-      list.remove(text);
     });
   }
 
@@ -168,7 +154,11 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
             label: Text(item),
             deleteIcon: Icon(Icons.cancel, size: 25, color: FIFTH_COLOR),
             deleteIconColor: SECONDARY_COLOR,
-            onDeleted: () => _removeChip(list, item),
+            onDeleted: () {
+              setState(() {
+                list.remove(item);
+              });
+            },
             backgroundColor: SECONDARY_COLOR,
             padding: EdgeInsets.symmetric(horizontal: 1),
             labelStyle: TextStyle(color: PRIMARY_COLOR),
@@ -179,54 +169,6 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
           );
         }).toList(),
       ),
-    );
-  }
-
-  Widget _buildAutocompleteTextField() {
-    return Autocomplete<String>(
-      optionsBuilder: (TextEditingValue textEditingValue) {
-        if (textEditingValue.text.isEmpty) {
-          return const Iterable<String>.empty();
-        } else {
-          return hobbySuggestions.where((hobby) =>
-              hobby.toLowerCase().contains(textEditingValue.text.toLowerCase()));
-        }
-      },
-      onSelected: (String selection) {
-        interestsController.text = selection;
-        _addChip(interests, selection);
-      },
-      fieldViewBuilder:
-          (context, controller, focusNode, onFieldSubmitted) {
-        return TextField(
-          controller: controller,
-          focusNode: focusNode,
-          style: TextStyle(color: PRIMARY_COLOR),
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: Colors.white,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(40),
-              borderSide: BorderSide.none,
-            ),
-            hintText: 'Select Interests',
-            contentPadding: EdgeInsets.only(left: 20),
-            suffixIcon: Padding(
-              padding: const EdgeInsets.only(right: 3),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: FIFTH_COLOR,
-                  borderRadius: BorderRadius.circular(40),
-                ),
-                child: IconButton(
-                  icon: Icon(Icons.add, color: SECONDARY_COLOR),
-                  onPressed: () => _addChip(interests, controller.text),
-                ),
-              ),
-            ),
-          ),
-        );
-      },
     );
   }
 
@@ -247,31 +189,37 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
           ),
         ),
         SizedBox(height: 8),
-        TextField(
-          controller: controller,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: Colors.white,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(40),
-              borderSide: BorderSide.none,
-            ),
-            contentPadding: EdgeInsets.only(left: 20),
-            suffixIcon: Padding(
-              padding: const EdgeInsets.only(right: 3),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: FIFTH_COLOR,
-                  borderRadius: BorderRadius.circular(40),
-                ),
-                child: IconButton(
-                  icon: Icon(Icons.add, color: SECONDARY_COLOR),
-                  onPressed: () => _addChip(list, controller.text),
+        Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: controller,
+                style: TextStyle(color: PRIMARY_COLOR),
+                decoration: InputDecoration(
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(40),
+                    borderSide: BorderSide.none,
+                  ),
+                  hintText: title,
+                  contentPadding: EdgeInsets.only(left: 20, top: 30),
+                  suffixIcon: Padding(
+                    padding: const EdgeInsets.only(right: 3),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: FIFTH_COLOR,
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      child: IconButton(
+                        icon: Icon(Icons.add, color: SECONDARY_COLOR),
+                        onPressed: () => _addChip(list, controller),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-          style: TextStyle(color: PRIMARY_COLOR),
+          ],
         ),
         SizedBox(height: 8),
         _buildChips(list),
@@ -285,33 +233,33 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
     return Scaffold(
       backgroundColor: PRIMARY_COLOR,
       appBar: AppBar(
-        backgroundColor: SECONDARY_COLOR,
-        title: Text(S.of(context).update_profile),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
+        title: Text('Update Profile',style: TextStyle(color: Colors.white),),
+        backgroundColor: PRIMARY_COLOR,
       ),
-      body: SingleChildScrollView(
+      body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: FutureBuilder(
+          padding: const EdgeInsets.all(16.0),
+          child: FutureBuilder<void>(
             future: _loadUserDataFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error loading user data.'));
               } else {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                return ListView(
                   children: [
                     Center(
                       child: Stack(
                         children: [
                           CircleAvatar(
-                            radius: 60,
+                            radius: 100,
                             backgroundImage: _profileImage != null
                                 ? FileImage(_profileImage!)
-                                : NetworkImage(_userData?['profile_image'] ?? '') as ImageProvider,
+                                : NetworkImage(
+                                    _userData?['account_image'] ??
+                                        'https://via.placeholder.com/150',
+                                  ) as ImageProvider,
                           ),
                           Positioned(
                             right: 0,
@@ -426,20 +374,11 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
                     ),
                     SizedBox(height: 16),
 
-                    // Autocomplete text field for Interests
-                    Text(
-                      'Interests',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    _buildSection(
+                      title: 'Interests',
+                      controller: interestsController,
+                      list: interests,
                     ),
-                    SizedBox(height: 8),
-                    _buildAutocompleteTextField(),
-                    SizedBox(height: 8),
-                    _buildChips(interests),
-                    SizedBox(height: 16),
 
                     _buildSection(
                       title: 'Goals',

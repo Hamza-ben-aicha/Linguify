@@ -1,8 +1,8 @@
-import 'package:convocult/Constants/Constants.dart';
-import 'package:convocult/screens/ChatPage.dart';
-import 'package:convocult/screens/ProfilePage.dart';
-import 'package:convocult/screens/SearchPage.dart';
-import 'package:convocult/screens/SettingsPage.dart';
+import 'package:Linguify/Constants/Constants.dart';
+import 'package:Linguify/screens/ChatPage.dart';
+import 'package:Linguify/screens/ProfilePage.dart';
+import 'package:Linguify/screens/SearchPage.dart';
+import 'package:Linguify/screens/SettingsPage.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {

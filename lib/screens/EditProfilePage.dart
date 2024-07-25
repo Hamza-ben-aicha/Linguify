@@ -1,6 +1,6 @@
-import 'package:convocult/shared%20preference/SharedPreferencesManager.dart';
+import 'package:Linguify/shared%20preference/SharedPreferencesManager.dart';
 import 'package:flutter/material.dart';
-import 'package:convocult/Constants/Constants.dart';
+import 'package:Linguify/Constants/Constants.dart';
 
 class EditProfilePage extends StatefulWidget {
   final Map<String, dynamic> userData;

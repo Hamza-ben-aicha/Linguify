@@ -1,14 +1,15 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:convocult/models/User.dart';
-import 'package:convocult/services/FirebaseService.dart';
+import 'package:Linguify/models/User.dart';
+import 'package:Linguify/services/FirebaseService.dart';
+import 'package:Linguify/shared%20preference/SharedPreferencesManager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class UserService {
   final FirebaseService _firebaseService = FirebaseService.instance;
-
+  final SharedPreferencesManager sharedPreferencesManager = SharedPreferencesManager();
   // Timer for periodic token refresh
   Timer? _tokenRefreshTimer;
 
@@ -64,11 +65,36 @@ class UserService {
     if (signupStep != null) data['signup_step'] = signupStep;
 
     try {
+      // Update user details in the 'users' collection
       await _firebaseService.firestore.collection('users').doc(uid).update(data);
+
+      // Update interests in the 'UserHobbies' collection
+      if (interests != null) {
+        // Remove existing entries for this user in UserHobbies
+        var existingHobbies = await _firebaseService.firestore
+            .collection('UserHobbies')
+            .where('userId', isEqualTo: uid)
+            .get();
+
+        for (var doc in existingHobbies.docs) {
+          await doc.reference.delete();
+        }
+
+        // Add new entries
+        for (var interestId in interests) {
+          await _firebaseService.firestore.collection('UserHobbies').add({
+            'userId': uid,
+            'interestId': interestId,
+          });
+        }
+      }
+
+      await sharedPreferencesManager.saveUserData(data);
     } catch (e) {
       print('Error updating user details: $e');
     }
   }
+
 
   Future<int?> getUserSignupStep(String uid) async {
     try {
@@ -83,17 +109,13 @@ class UserService {
     return null;
   }
 
-  Future<UserModel?> getUser(String uid) async {
+  Future<DocumentSnapshot> getUser(String uid) async {
     try {
-      DocumentSnapshot doc = await _firebaseService.firestore.collection('users').doc(uid).get();
-      if (doc.exists) {
-        return UserModel.fromJson(doc.data() as Map<String, dynamic>);
-      } else {
-        return null;
-      }
+      DocumentSnapshot userDoc = await _firebaseService.firestore.collection('users').doc(uid).get();
+      return userDoc;
     } catch (e) {
       print('Error getting user: $e');
-      return null;
+      rethrow;
     }
   }
 
@@ -177,15 +199,75 @@ class UserService {
     }
   }
 
+  // Function to get the current logged in user's UID
+  String? getCurrentUserUID() {
+    User? user = _firebaseService.auth.currentUser;
+    if (user != null) {
+      return user.uid;
+    } else {
+      return null;
+    }
+  }
 
-  Future<List<String>> getHobbies() async {
+  // Function to get the current logged-in user
+  User? getCurrentUser() {
+    return _firebaseService.auth.currentUser;
+  }
+
+
+  Future<List<Map<String, String>>> getHobbies() async {
     try {
       QuerySnapshot querySnapshot = await _firebaseService.firestore.collection('hobbies').get();
-      List<String> hobbies = querySnapshot.docs.map((doc) => doc['hobby'] as String).toList();
+      List<Map<String, String>> hobbies = querySnapshot.docs.map((doc) {
+        return {
+          'id': doc.id,
+          'hobby': doc['hobby'] as String,
+        };
+      }).toList();
       return hobbies;
     } catch (e) {
       print("Error fetching hobbies: $e");
       return [];
     }
   }
+
+  Future<Map<String, dynamic>?> getUserProfile(String uid) async {
+    try {
+      // Get user document from 'users' collection
+      DocumentSnapshot userDoc = await _firebaseService.firestore.collection('users').doc(uid).get();
+
+      if (userDoc.exists) {
+        Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+
+        // Get user hobbies from 'UserHobbies' collection
+        QuerySnapshot hobbiesSnapshot = await _firebaseService.firestore
+            .collection('UserHobbies')
+            .where('userId', isEqualTo: uid)
+            .get();
+
+        List<String> hobbiesIds = hobbiesSnapshot.docs.map((doc) => doc['interestId'] as String).toList();
+
+        // Get hobbies names from 'hobbies' collection
+        List<Map<String, String>> hobbiesList = [];
+        for (String hobbyId in hobbiesIds) {
+          DocumentSnapshot hobbyDoc = await _firebaseService.firestore.collection('hobbies').doc(hobbyId).get();
+          if (hobbyDoc.exists) {
+            hobbiesList.add({
+              'id': hobbyDoc.id,
+              'name': hobbyDoc['hobby'],
+            });
+          }
+        }
+
+        // Add hobbies to user data
+        userData['interests'] = hobbiesList;
+
+        return userData;
+      }
+    } catch (e) {
+      print('Error getting user profile: $e');
+    }
+    return null;
+  }
+
 }

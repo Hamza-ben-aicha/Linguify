@@ -1,12 +1,13 @@
-import 'package:convocult/Constants/Constants.dart';
-import 'package:convocult/generated/l10n.dart';
-import 'package:convocult/screens/AccountInfoPage2.dart';
-import 'package:convocult/services/user_service.dart';
+import 'package:Linguify/Constants/Constants.dart';
+import 'package:Linguify/generated/l10n.dart';
+import 'package:Linguify/screens/AccountInfoPage2.dart';
+import 'package:Linguify/services/user_service.dart';
 import 'package:flutter/material.dart';
-
+import 'package:Linguify/widgets/chips_input_section.dart';
+import 'package:Linguify/widgets/section_input_field.dart';
 
 class AccountInfoPage extends StatefulWidget {
-  final String uid; // Define uid as a parameter
+  final String uid;
 
   const AccountInfoPage({Key? key, required this.uid}) : super(key: key);
 
@@ -14,21 +15,45 @@ class AccountInfoPage extends StatefulWidget {
   _AccountInfoPageState createState() => _AccountInfoPageState();
 }
 
-
-
 class _AccountInfoPageState extends State<AccountInfoPage> {
   final List<String> interests = [];
+  final List<String> interestIds = [];
   final List<String> goals = [];
   final List<String> languagesToLearn = [];
   final List<String> nativeLanguages = [];
-  final TextEditingController interestsController = TextEditingController();
   final TextEditingController goalsController = TextEditingController();
-  final TextEditingController languagesToLearnController =
-  TextEditingController();
-  final TextEditingController nativeLanguagesController =
-  TextEditingController();
+  final TextEditingController languagesToLearnController = TextEditingController();
+  final TextEditingController nativeLanguagesController = TextEditingController();
+  final TextEditingController interestsController = TextEditingController();
 
-  UserService _userServices = UserService(); // Initialize UserServices
+  UserService _userServices = UserService();
+  List<Map<String, String>> hobbies = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchHobbies();
+  }
+
+  Future<void> _fetchHobbies() async {
+    try {
+      List<Map<String, String>> fetchedHobbies = await _userServices.getHobbies();
+      setState(() {
+        hobbies = fetchedHobbies;
+      });
+    } catch (e) {
+      print("Error fetching hobbies: $e");
+    }
+  }
+
+  void _addHobbyChip(String hobby, String id) {
+    if (!interests.contains(hobby)) {
+      setState(() {
+        interests.add(hobby);
+        interestIds.add(id);
+      });
+    }
+  }
 
   void _addChip(List<String> list, TextEditingController controller) {
     setState(() {
@@ -39,49 +64,20 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
     });
   }
 
-  Widget _buildChips(List<String> list) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 10),
-      child: Wrap(
-        spacing: 10,
-        children: list.map((item) {
-          return Chip(
-            label: Text(item),
-            deleteIcon: Icon(Icons.cancel, size: 25, color: FIFTH_COLOR), // Changed icon to cancel icon
-            deleteIconColor: SECONDARY_COLOR,
-            onDeleted: () {
-              setState(() {
-                list.remove(item);
-              });
-            },
-            backgroundColor: SECONDARY_COLOR, // Background color of the chip
-            padding: EdgeInsets.symmetric(horizontal: 1), // Padding of the chip
-            labelStyle: TextStyle(color: PRIMARY_COLOR), // Text color of the chip
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(40), // Radius of the chip
-              side: BorderSide(color: FIFTH_COLOR, width: 1), // Border color and width of the chip
-            ),
-          );
-        }).toList(),
-      ),
-    );
-  }
-
-
   Future<void> _updateUserDetails() async {
     try {
       await _userServices.updateUserDetails(
         widget.uid,
-        interests: interests,
+        interests: interestIds,
         goals: goals,
         languagesToLearn: languagesToLearn,
-        nativeLanguage: nativeLanguages.isNotEmpty ? nativeLanguages[0] : null,// Assuming only one native language is selected
-        signupStep : 2, // Update signup_step to 2,
+        nativeLanguage: nativeLanguages.isNotEmpty ? nativeLanguages[0] : null,
+        signupStep: 2,
       );
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(S.of(context).details_updated_successfully),
       ));
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>CompleteAccountPage2(username: "Hamza ben aicha")));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => CompleteAccountPage2(username: "Hamza ben aicha")));
     } catch (e) {
       print('Error updating user details: $e');
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -111,25 +107,35 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                 ),
               ),
               SizedBox(height: 16),
-              _buildSection(
+              ChipsInputSection(
                 title: S.of(context).interests,
                 controller: interestsController,
                 list: interests,
+                idList: interestIds,
+                suggestions: hobbies,
+                onSuggestionSelected: _addHobbyChip,
+                onAddChip: () => _addChip(interests, interestsController),
               ),
-              _buildSection(
+              SectionInputField(
                 title: S.of(context).goals,
                 controller: goalsController,
                 list: goals,
+                idList: [],
+                onAddChip: () => _addChip(goals, goalsController),
               ),
-              _buildSection(
+              SectionInputField(
                 title: S.of(context).languages_to_learn,
                 controller: languagesToLearnController,
                 list: languagesToLearn,
+                idList: [],
+                onAddChip: () => _addChip(languagesToLearn, languagesToLearnController),
               ),
-              _buildSection(
+              SectionInputField(
                 title: S.of(context).native_language,
                 controller: nativeLanguagesController,
                 list: nativeLanguages,
+                idList: [],
+                onAddChip: () => _addChip(nativeLanguages, nativeLanguagesController),
               ),
               SizedBox(height: 16),
               ElevatedButton(
@@ -147,62 +153,6 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildSection({
-    required String title,
-    required TextEditingController controller,
-    required List<String> list,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        SizedBox(height: 8),
-        Row(
-          children: [
-            Expanded(
-              child: TextField(
-                controller: controller,
-                style: TextStyle(color: PRIMARY_COLOR),
-                decoration: InputDecoration(
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(40),
-                    borderSide: BorderSide.none,
-                  ),
-                  hintText: title,
-                  contentPadding: EdgeInsets.only(left: 20, top: 30),
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.only(right: 3),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: FIFTH_COLOR,
-                        borderRadius: BorderRadius.circular(40),
-                      ),
-                      child: IconButton(
-                        icon: Icon(Icons.add, color: SECONDARY_COLOR),
-                        onPressed: () => _addChip(list, controller),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 8),
-        _buildChips(list),
-        SizedBox(height: 16),
-      ],
     );
   }
 }

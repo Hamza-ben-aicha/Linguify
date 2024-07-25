@@ -1,7 +1,7 @@
-import 'package:convocult/Constants/Constants.dart';
-import 'package:convocult/generated/l10n.dart';
-import 'package:convocult/screens/LoginPage.dart';
-import 'package:convocult/services/AuthGate.dart';
+import 'package:Linguify/Constants/Constants.dart';
+import 'package:Linguify/generated/l10n.dart';
+import 'package:Linguify/screens/LoginPage.dart';
+import 'package:Linguify/services/AuthGate.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

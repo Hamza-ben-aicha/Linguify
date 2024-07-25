@@ -1,8 +1,8 @@
-import 'package:convocult/Constants/Constants.dart';
-import 'package:convocult/services/user_service.dart';
+import 'package:Linguify/Constants/Constants.dart';
+import 'package:Linguify/services/user_service.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:convocult/generated/l10n.dart';
+import 'package:Linguify/generated/l10n.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   @override

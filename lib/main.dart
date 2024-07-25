@@ -1,9 +1,9 @@
-import 'package:convocult/generated/l10n.dart';
-import 'package:convocult/screens/AccountInfoPage2.dart';
-import 'package:convocult/screens/ForgetPasswordPage.dart';
-import 'package:convocult/screens/HomePage.dart';
-import 'package:convocult/screens/LoginPage.dart';
-import 'package:convocult/screens/SplashScreen.dart';
+import 'package:Linguify/generated/l10n.dart';
+import 'package:Linguify/screens/AccountInfoPage2.dart';
+import 'package:Linguify/screens/ForgetPasswordPage.dart';
+import 'package:Linguify/screens/HomePage.dart';
+import 'package:Linguify/screens/LoginPage.dart';
+import 'package:Linguify/screens/SplashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      locale: const Locale('fr'),
+      locale: const Locale('en'),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: [
         S.delegate,

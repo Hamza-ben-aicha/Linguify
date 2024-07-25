@@ -1,4 +1,4 @@
-import 'package:convocult/Constants/Constants.dart';
+import 'package:Linguify/Constants/Constants.dart';
 import 'package:flutter/material.dart';
 
 class ChatPage extends StatelessWidget {

@@ -1,4 +1,6 @@
-import 'package:convocult/Constants/Constants.dart';
+import 'package:Linguify/Constants/Constants.dart';
+import 'package:Linguify/screens/ProfileUpdatePage.dart';
+import 'package:Linguify/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
@@ -10,7 +12,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   Map<String, dynamic> userData = {};
-
+  UserService userService = UserService();
   @override
   void initState() {
     super.initState();
@@ -18,6 +20,10 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> _loadUserData() async {
+    List<Map<String, String>> hobies = await userService.getHobbies();
+
+    print(hobies);
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userDataString = prefs.getString('userData');
     if (userDataString != null) {
@@ -27,60 +33,9 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  Future<void> _showEditDialog(String title, String fieldKey) async {
-    TextEditingController controller = TextEditingController();
-    String uid = 'user-uid'; // Replace with the actual user UID
-
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // User must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Edit $title'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                TextField(
-                  controller: controller,
-                  decoration: InputDecoration(hintText: 'Enter new $title'),
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('Submit'),
-              onPressed: () async {
-                String newValue = controller.text;
-                // await updateUserDetails(uid, {fieldKey: newValue});
-                setState(() {
-                  userData[fieldKey] = newValue;
-                });
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-  //
-  // Future<void> updateUserDetails(String uid, Map<String, dynamic> data) async {
-  //   try {
-  //     await _firebaseService.firestore.collection('users').doc(uid).update(data);
-  //   } catch (e) {
-  //     print('Error updating user details: $e');
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: PRIMARY_COLOR,
       body: SafeArea(
@@ -90,23 +45,53 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Profile",
-                  style: TextStyle(
-                    color: SECONDARY_COLOR,
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                  ),
+                Row(
+                  children: [
+                    Text(
+                      "Profile",
+                      style: TextStyle(
+                        color: SECONDARY_COLOR,
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: IconButton(
+                        icon: Icon(Icons.edit,color: Colors.white,),
+                        onPressed: () async  {
+                          final result = await Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ProfileUpdatePage()),
+                          );
+                          if (result == true) {
+                            _loadUserData();
+                          }
+                        },
+                      ),
+                    ),
+                  ],
                 ),
+                Divider(color: Colors.white10,height: 10,),
+
+
                 SizedBox(height: 40),
                 Center(
                   child: Stack(
                     children: [
-                      CircleAvatar(
-                        radius: 60,
-                        backgroundImage: NetworkImage(
-                          userData['account_image'] ??
-                              'https://via.placeholder.com/150', // Placeholder image
+                      Container(
+                        padding: EdgeInsets.all(1), // Border width
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: THIRD_COLOR, // Border color
+                        ),
+                        child: CircleAvatar(
+                          radius: 100,
+                          backgroundImage: NetworkImage(
+                            userData['account_image'] ??
+                                'https://via.placeholder.com/150', // Placeholder image
+                          ),
                         ),
                       ),
                       Positioned(
@@ -116,12 +101,6 @@ class _ProfilePageState extends State<ProfilePage> {
                           decoration: BoxDecoration(
                             color: FIFTH_COLOR,
                             shape: BoxShape.circle,
-                          ),
-                          child: IconButton(
-                            icon: Icon(Icons.edit, color: Colors.white),
-                            onPressed: () {
-                              // Implement edit profile picture functionality
-                            },
                           ),
                         ),
                       ),
@@ -157,6 +136,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 buildProfileInfo('Gender', userData['gender'] ?? 'Male', 'gender', context),
                 buildProfileInfo('Birthdate', userData['birthdate'] ?? '2000/10/5', 'birthdate', context),
                 buildProfileInfo('Goals', (userData['goals'] ?? ['goal1', 'goal2', 'goal3', 'goal4', 'goal5']).join(', '), 'goals', context),
+                buildProfileInfo('Intrests', (userData['interests'] ?? [', ']).join(', '), 'interests', context),
+                buildProfileInfo('Languages to learn', (userData['languages_to_learn'] ?? [', ']).join(', '), 'languages_to_learn', context),
+                // buildProfileInfo('Native languages', (userData['native_language'] ?? [', ']).join(', '), 'native_language', context),
               ],
             ),
           ),
@@ -186,14 +168,8 @@ class _ProfilePageState extends State<ProfilePage> {
               fontSize: 16,
             ),
           ),
-          trailing: IconButton(
-            icon: Icon(Icons.edit, color: Colors.white70),
-            onPressed: () {
-              _showEditDialog(title, fieldKey);
-            },
-          ),
         ),
-        Divider(color: Colors.white54),
+        Divider(color: Colors.white24),
       ],
     );
   }

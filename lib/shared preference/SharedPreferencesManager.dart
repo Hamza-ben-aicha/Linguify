@@ -1,8 +1,9 @@
 import 'dart:convert';
+import 'package:Linguify/constants/Constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesManager {
-  static const String _keyUserData = 'userData';
+  static const String _keyUserData = keyUserData;
 
   // Singleton instance
   static final SharedPreferencesManager _instance = SharedPreferencesManager._internal();
@@ -13,10 +14,19 @@ class SharedPreferencesManager {
 
   SharedPreferencesManager._internal();
 
-  // Save all user data
-  Future<void> saveUserData(Map<String, dynamic> userData) async {
+  Future<void> saveUserData(Map<String, dynamic> newUserData) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_keyUserData, json.encode(userData));
+    String? existingUserDataString = prefs.getString(_keyUserData);
+
+    Map<String, dynamic> existingUserData = {};
+    if (existingUserDataString != null) {
+      existingUserData = json.decode(existingUserDataString);
+    }
+
+    // Merge new user data with existing user data
+    Map<String, dynamic> mergedUserData = {...existingUserData, ...newUserData};
+
+    await prefs.setString(_keyUserData, json.encode(mergedUserData));
   }
 
   // Get all user data

@@ -56,6 +56,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Enter your email"),
         "failed_to_update_details":
             MessageLookupByLibrary.simpleMessage("failed to update details"),
+        "failed_to_update_profile":
+            MessageLookupByLibrary.simpleMessage("failed to update profile"),
         "female": MessageLookupByLibrary.simpleMessage("Female"),
         "forget_password":
             MessageLookupByLibrary.simpleMessage("Forgot Password? "),
@@ -80,6 +82,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Password reset email sent"),
         "passwords_do_not_match":
             MessageLookupByLibrary.simpleMessage("Passwords do not match"),
+        "profile_updated_successfully": MessageLookupByLibrary.simpleMessage(
+            "profile updated successfully"),
         "remembered_password":
             MessageLookupByLibrary.simpleMessage("Remembered your password?"),
         "select_country":
@@ -91,6 +95,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "signup_failed": MessageLookupByLibrary.simpleMessage("signup failed"),
         "title": MessageLookupByLibrary.simpleMessage("Linguify"),
         "unknown_error": MessageLookupByLibrary.simpleMessage("unknown_error"),
+        "update": MessageLookupByLibrary.simpleMessage("update"),
+        "update_profile":
+            MessageLookupByLibrary.simpleMessage("update profile"),
         "weak_password": MessageLookupByLibrary.simpleMessage("Weak password"),
         "welcome":
             MessageLookupByLibrary.simpleMessage("Hello again!\nWelcome \nBack")

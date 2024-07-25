@@ -1,8 +1,8 @@
-import 'package:convocult/screens/LoginPage.dart';
-import 'package:convocult/services/user_service.dart';
+import 'package:Linguify/screens/LoginPage.dart';
+import 'package:Linguify/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:convocult/Constants/Constants.dart'; // Adjust the import according to your file structure
+import 'package:Linguify/Constants/Constants.dart'; // Adjust the import according to your file structure
 
 class SettingsPage extends StatelessWidget {
   final UserService userService = UserService();

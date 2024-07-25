@@ -1,9 +1,9 @@
-import 'package:convocult/Constants/Constants.dart';
-import 'package:convocult/screens/HomePage.dart';
-import 'package:convocult/screens/LoginPage.dart';
-import 'package:convocult/screens/SignUpPage.dart';
-import 'package:convocult/services/user_service.dart';
-import 'package:convocult/utility/signup_steps_util.dart';
+import 'package:Linguify/Constants/Constants.dart';
+import 'package:Linguify/screens/HomePage.dart';
+import 'package:Linguify/screens/LoginPage.dart';
+import 'package:Linguify/screens/SignUpPage.dart';
+import 'package:Linguify/services/user_service.dart';
+import 'package:Linguify/utility/signup_steps_util.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

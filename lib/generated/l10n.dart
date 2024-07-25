@@ -509,6 +509,46 @@ class S {
       args: [],
     );
   }
+
+  /// `update profile`
+  String get update_profile {
+    return Intl.message(
+      'update profile',
+      name: 'update_profile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `failed to update profile`
+  String get failed_to_update_profile {
+    return Intl.message(
+      'failed to update profile',
+      name: 'failed_to_update_profile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `profile updated successfully`
+  String get profile_updated_successfully {
+    return Intl.message(
+      'profile updated successfully',
+      name: 'profile_updated_successfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `update`
+  String get update {
+    return Intl.message(
+      'update',
+      name: 'update',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

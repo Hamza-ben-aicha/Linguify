@@ -1,4 +1,4 @@
-name: convocult
+name: Linguify
 description: "ConvoCult is a language learning chat app designed to connect learners with
   native speakers around the world, fostering not only language skills but also
   cultural understanding. The name \"ConvoCult\" merges \"conversation\" with
@@ -48,6 +48,7 @@ dependencies:
   image_picker: ^1.1.2
   shared_preferences: ^2.2.3
   firebase_storage: ^12.1.1
+  flutter_typeahead: ^4.1.0
 
 dev_dependencies:
   flutter_test:

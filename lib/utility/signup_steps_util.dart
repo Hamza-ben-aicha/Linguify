@@ -1,10 +1,10 @@
 // signup_steps_util.dart
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:convocult/screens/AccountInfoPage.dart';
-import 'package:convocult/screens/AccountInfoPage2.dart';
-import 'package:convocult/screens/HomePage.dart';
-import 'package:convocult/services/user_service.dart';
+import 'package:Linguify/screens/AccountInfoPage.dart';
+import 'package:Linguify/screens/AccountInfoPage2.dart';
+import 'package:Linguify/screens/HomePage.dart';
+import 'package:Linguify/services/user_service.dart';
 
 Future<void> handleSignupSteps(BuildContext context, String uid) async {
   final userService = UserService();

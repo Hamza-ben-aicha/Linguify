@@ -37,52 +37,7 @@ class _SignUpPageState extends State<SignUpPage> {
     confirmPasswordController.dispose();
     super.dispose();
   }
-  //
-  // void signUp() async {
-  //   if (passwordController.text != confirmPasswordController.text) {
-  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(S.of(context).passwords_do_not_match)));
-  //     return;
-  //   }
-  //
-  //   try {
-  //     User? user = await _userServices.signUp(
-  //       emailController.text.trim(),
-  //       passwordController.text.trim(),
-  //       fullnameController.text.trim(),
-  //       selectedCountry?.name ?? 'Not specified',
-  //     );
-  //
-  //     if (user != null) {
-  //       // Navigate to account info page and pass user UID
-  //       Navigator.pushReplacement(
-  //         context,
-  //         MaterialPageRoute(builder: (context) => AccountInfoPage(uid: user.uid)),
-  //       );
-  //     } else {
-  //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(S.of(context).signup_failed)));
-  //     }
-  //   } on FirebaseAuthException catch (e) {
-  //     String errorMessage;
-  //     switch (e.code) {
-  //       case 'email-already-in-use':
-  //         errorMessage = S.of(context).email_already_in_use;
-  //         break;
-  //       case 'invalid-email':
-  //         errorMessage = S.of(context).invalid_email;
-  //         break;
-  //       case 'weak-password':
-  //         errorMessage = S.of(context).weak_password;
-  //         break;
-  //       default:
-  //         errorMessage = S.of(context).unknown_error;
-  //     }
-  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(errorMessage)));
-  //   } catch (e) {
-  //     print('Error signing up: $e');
-  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(S.of(context).signup_failed)));
-  //   }
-  // }
-  //
+
   void signUp() async {
     if (passwordController.text != confirmPasswordController.text) {
       ScaffoldMessenger.of(context).showSnackBar(

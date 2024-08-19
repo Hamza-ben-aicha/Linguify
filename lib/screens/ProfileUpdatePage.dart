@@ -58,7 +58,8 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
           gender = _userData?['gender'] ?? 'Male';
 
           interests.clear();
-          interests.addAll(List<String>.from(_userData?['interests'] ?? []));
+          interests.addAll(List<String>.from(_userData?['hobbies'] ?? []));
+          print(interests);
 
           goals.clear();
           goals.addAll(List<String>.from(_userData?['goals'] ?? []));
@@ -69,7 +70,7 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
 
           nativeLanguages.clear();
           nativeLanguages
-              .addAll(List<String>.from(_userData?['native_language'] ?? []));
+              .addAll(List<String>.from(_userData?['native_languages'] ?? []));
 
           // Set the selected birthdate
           String? birthdateString = _userData?['birthdate'];

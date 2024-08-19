@@ -9,8 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 class UserService {
   final FirebaseService _firebaseService = FirebaseService.instance;
-  final SharedPreferencesManager sharedPreferencesManager = SharedPreferencesManager();
-  // Timer for periodic token refresh
+  final SharedPreferencesManager _sharedPreferencesManager = SharedPreferencesManager();
   Timer? _tokenRefreshTimer;
 
   Future<User?> signUp(String email, String password, String fullName, String country) async {
@@ -89,7 +88,7 @@ class UserService {
         }
       }
 
-      await sharedPreferencesManager.saveUserData(data);
+      await _sharedPreferencesManager.saveUserData(data);
     } catch (e) {
       print('Error updating user details: $e');
     }
@@ -119,48 +118,67 @@ class UserService {
     }
   }
 
-  Future<User?> loginUser({
-    required String email,
-    required String password,
-  }) async {
+
+
+  Future<List<String>> _getUserHobbies(String uid) async {
     try {
-      UserCredential userCredential = await _firebaseService.auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      User? user = userCredential.user;
-
-      // Setup token refresh
-      _setupTokenRefresh();
-
-      return user;
+      print('User id -----> $uid');
+      QuerySnapshot snapshot = await _firebaseService.firestore
+          .collection('UserHobbies')
+          .where('userId', isEqualTo: uid)
+          .get();
+      return snapshot.docs.map((doc) => doc['interestId'] as String).toList();
     } catch (e) {
-      print(e);
-      return null;
+      print('Error getting user hobbies: $e');
+      throw e;
     }
   }
 
-  Future<Map<String, dynamic>> signInWithEmailPassword(String email, String password) async {
+  Future<List<String>> _getUserLanguages(String uid, bool isNative) async {
     try {
-      UserCredential userCredential = await _firebaseService.auth.signInWithEmailAndPassword(email: email, password: password);
-      String? token = await userCredential.user?.getIdToken(true);
+      QuerySnapshot snapshot = await _firebaseService.firestore
+          .collection('userLanguages')
+          .where('userId', isEqualTo: uid)
+          .where('isNative', isEqualTo: isNative)
+          .get();
+      return snapshot.docs.map((doc) => doc['languageId'] as String).toList();
+    } catch (e) {
+      print('Error getting user languages: $e');
+      throw e;
+    }
+  }
+  Future<User?> signInWithEmailPassword(String email, String password) async {
+    try {
+      UserCredential userCredential =
+      await _firebaseService.auth.signInWithEmailAndPassword(email: email, password: password);
+      User? user = userCredential.user;
 
-      DocumentSnapshot userDoc = await _firebaseService.firestore.collection('users').doc(userCredential.user?.uid).get();
+      if (user != null) {
+        // Fetch user data from Firestore
+        DocumentSnapshot userDoc =
+        await _firebaseService.firestore.collection('users').doc(user.uid).get();
+        Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
 
-      if (userDoc.exists) {
-        // Setup token refresh
-        _setupTokenRefresh();
+        // Fetch user's hobbies and languages
+        List<String> hobbies = await _getUserHobbies(user.uid);
+        List<String> languagesToLearn = await _getUserLanguages(user.uid, false);
+        List<String> nativeLanguages = await _getUserLanguages(user.uid, true);
 
-        return {
-          'token': token,
-          'userData': userDoc.data(),
-          'uid': userCredential.user?.uid
-        };
-      } else {
-        throw Exception('User document does not exist');
+        print(hobbies);
+        // Add hobbies and languages to userData
+        userData['hobbies'] = hobbies;
+        userData['languages_to_learn'] = languagesToLearn;
+        userData['native_languages'] = nativeLanguages;
+
+        // Save user data to SharedPreferences
+        await _sharedPreferencesManager.saveUserData(userData);
+
+        return user;
       }
-    } on FirebaseAuthException catch (e) {
-      throw Exception(e.code);
+      return null;
+    } catch (e) {
+      print('Error signing in with email and password: $e');
+      throw e;
     }
   }
 

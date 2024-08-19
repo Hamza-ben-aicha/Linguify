@@ -73,6 +73,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "invalid_email": MessageLookupByLibrary.simpleMessage("Invalid email"),
         "languages_to_learn":
             MessageLookupByLibrary.simpleMessage("Languages you want to learn"),
+        "loading": MessageLookupByLibrary.simpleMessage("Loading"),
         "male": MessageLookupByLibrary.simpleMessage("Male"),
         "native_language":
             MessageLookupByLibrary.simpleMessage("Your native languages"),
@@ -82,6 +83,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Password reset email sent"),
         "passwords_do_not_match":
             MessageLookupByLibrary.simpleMessage("Passwords do not match"),
+        "profile": MessageLookupByLibrary.simpleMessage("profile"),
         "profile_updated_successfully": MessageLookupByLibrary.simpleMessage(
             "profile updated successfully"),
         "remembered_password":

@@ -1,13 +1,10 @@
   import 'package:Linguify/Constants/Constants.dart';
   import 'package:Linguify/generated/l10n.dart';
-  import 'package:Linguify/screens/AccountInfoPage.dart';
-  import 'package:Linguify/screens/AccountInfoPage2.dart';
   import 'package:Linguify/screens/ForgetPasswordPage.dart';
-  import 'package:Linguify/screens/HomePage.dart';
   import 'package:Linguify/screens/SignUpPage.dart';
   import 'package:Linguify/services/user_service.dart';
-import 'package:Linguify/shared%20preference/SharedPreferencesManager.dart';
-import 'package:Linguify/utility/signup_steps_util.dart';
+  import 'package:Linguify/shared%20preference/SharedPreferencesManager.dart';
+  import 'package:Linguify/utility/signup_steps_util.dart';
   import 'package:flutter/gestures.dart';
   import 'package:flutter/material.dart';
 
@@ -25,16 +22,12 @@ import 'package:Linguify/utility/signup_steps_util.dart';
           emailController.text,
           passwordController.text,
         );
-        if (result.containsKey('token')) {
-          String token = result['token'];
-          Map<String, dynamic> userData = result['userData'];
-          String uid = result['uid'];
-          print(userData);
-          await prefsManager.saveUserData(userData);
 
+        if (result != null) {
 
-          // Handle signup steps
-          await handleSignupSteps(context, uid);
+          print(result);
+          print(prefsManager.getUserData());
+          await handleSignupSteps(context, result.uid);
         }
       } catch (e) {
         showDialog(

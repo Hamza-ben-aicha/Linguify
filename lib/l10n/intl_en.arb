@@ -48,5 +48,7 @@
   "update_profile": "update profile",
   "failed_to_update_profile": "failed to update profile",
   "profile_updated_successfully": "profile updated successfully",
-  "update": "update"
+  "update": "update",
+  "loading" : "Loading",
+  "profile" : "profile"
 }

@@ -1,4 +1,5 @@
 import 'package:Linguify/Constants/Constants.dart';
+import 'package:Linguify/generated/l10n.dart';
 import 'package:Linguify/screens/ProfileUpdatePage.dart';
 import 'package:Linguify/services/user_service.dart';
 import 'package:flutter/material.dart';
@@ -22,10 +23,10 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> _loadUserData() async {
     List<Map<String, String>> hobies = await userService.getHobbies();
 
-    print(hobies);
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userDataString = prefs.getString('userData');
+    print(userDataString);
     if (userDataString != null) {
       setState(() {
         userData = json.decode(userDataString);
@@ -48,7 +49,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Row(
                   children: [
                     Text(
-                      "Profile",
+                      S.of(context).profile,
                       style: TextStyle(
                         color: SECONDARY_COLOR,
                         fontSize: 32,
@@ -112,7 +113,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Column(
                     children: [
                       Text(
-                        userData['full_name'] ?? 'FullName',
+                        userData['full_name'] ?? S.of(context).loading,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 24,
@@ -120,7 +121,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                       Text(
-                        userData['email'] ?? 'Email@gmail.com',
+                        userData['email'] ?? S.of(context).loading,
                         style: TextStyle(
                           color: Colors.white70,
                           fontSize: 16,
@@ -131,14 +132,14 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 SizedBox(height: 20),
                 Divider(color: Colors.white54),
-                buildProfileInfo('Bio', userData['bio'] ?? 'bio with extra light font', 'bio', context),
-                buildProfileInfo('Country', userData['country'] ?? 'Tunisia', 'country', context),
+                buildProfileInfo('Bio', userData['bio'] ?? S.of(context).loading, 'bio', context),
+                buildProfileInfo('Country', userData['country'] ?? S.of(context).loading, 'country', context),
                 buildProfileInfo('Gender', userData['gender'] ?? 'Male', 'gender', context),
-                buildProfileInfo('Birthdate', userData['birthdate'] ?? '2000/10/5', 'birthdate', context),
-                buildProfileInfo('Goals', (userData['goals'] ?? ['goal1', 'goal2', 'goal3', 'goal4', 'goal5']).join(', '), 'goals', context),
-                buildProfileInfo('Intrests', (userData['interests'] ?? [', ']).join(', '), 'interests', context),
+                buildProfileInfo('Birthdate', userData['birthdate'] ?? S.of(context).loading, 'birthdate', context),
+                buildProfileInfo('Goals', (userData['goals'] ?? [S.of(context).loading, S.of(context).loading]).join(', '), 'goals', context),
+                buildProfileInfo('Intrests', (userData['hobbies'] ?? [', ']).join(', '), 'interests', context),
                 buildProfileInfo('Languages to learn', (userData['languages_to_learn'] ?? [', ']).join(', '), 'languages_to_learn', context),
-                // buildProfileInfo('Native languages', (userData['native_language'] ?? [', ']).join(', '), 'native_language', context),
+                buildProfileInfo('Native languages', (userData['native_languages'] ?? [', ']).join(', '), 'native_language', context),
               ],
             ),
           ),
